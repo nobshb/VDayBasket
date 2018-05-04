@@ -14,10 +14,10 @@ public class PlayerController : MonoBehaviour
     private CharacterController playerC;
     private int count;
 
-    private float speed = 10f;
-    private float jumpForce = 15f;
+    private float speed = 15f;
+    private float jumpForce = 25f;
     private float gravity = 50f;
-    private float rotateSpeed = 5.0f;
+    private float rotateSpeed = 8f;
     private Vector3 moveDir = Vector3.zero;
 
     void Start()
@@ -52,6 +52,16 @@ public class PlayerController : MonoBehaviour
         controller.Move(moveDir * Time.deltaTime);
 
         transform.Rotate(0, Input.GetAxis("Horizontal"), 0);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Lvl1");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            SceneManager.LoadScene("EndGame");
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -64,6 +74,12 @@ public class PlayerController : MonoBehaviour
         }
 
         if (other.gameObject.tag == "RestartBoundary")
+        {
+            Debug.Log("died");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("died");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
